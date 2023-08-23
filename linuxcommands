@@ -1,0 +1,73 @@
+# Clear cache in linux server
+
+sync; echo 1 > /proc/sys/vm/drop_caches;
+sync; echo 2 > /proc/sys/vm/drop_caches;
+# list of ports using
+firewall-cmd --list-ports
+cat <filename> | grep "timestamp"
+ex: cat sys.log | grep "Jul 14 16:" =>gives logs in 16th hour upto one hour
+    cat<filename> | grep "Jul 14 16:0" => gives logs with time satmp starts 16:0 upto 10 mins
+# Search word in all files with grep
+grep -rni "landingspotdb.cmszsfvuv7sl.ap-southeast-2.rds.amazonaws.com" /Web/AverPlanning/
+# atop commands
+atop -m  //show memory-related process-info
+atop -n  //show network-related process-info
+
+mv <path/*> <pathof-dir-to-move,if-current-dir-give-.>
+
+# To search for latest version available in package repository
+
+sudo yum search <package-name>
+sudo yum info <package-name>
+which sonar-scanner
+sudo usermod -aG docker $USER
+yum list installed or rpm -qa
+
+du -ac --bytes > 210723.txt
+find . -not -path '*/\.*' -type f | wc -l
+# sync command
+rsync -avL --progress -e "ssh -i /home/ec2-user/tlhnewaws.pem" /var/www/html/   ec2-user@13.200.4.211:/data/
+
+scp --progress -e "ssh -i /home/ec2-user/tlhnewaws.pem"   ec2-user@3.6.114.152:/usr/share/dotnet/sdk
+rsync -avL --progress -e "ssh -i /home/ec2-user/tlhnewaws.pem"  ec2-user@3.6.114.152:/usr/share/dotnet/sdk/
+rsync -avL --progress -e "ssh -i /home/ec2-user/tlhnewaws.pem" /var/www/html/backup/26-07-2023/Kleansy_26072023.sql.zip  ec2-user@3.6.114.152:/data/chandra/
+
+
+
+# sync from ec2 to s3
+aws s3 cp builds s3://ses286 --region us-west-2 --recursive >migration1.txt
+ aws s3 sync <folder-name> s3://<bucket-name> --region
+# data to s3 as zip without saving zip file in server
+tar c /home |gzip | aws s3 cp - "s3://ses286/ebs-back.tar.gz"
+
+aws s3 sync s3://my-us-west-2-bucket s3://my-us-east-1-bucket --source-region us-west-2 --region us-east-1
+# copy command
+scp -i /home/ec2-user/tlhnewaws.pem -r /usr/share/dotnet/sdk/ ec2-user@3.6.114.152:/usr/share/dotnet/sdk/
+
+
+
+
+# Mysql backup commands
+mysqldump -u [user name] –p [password] [options] [database_name] [tablename] > [dumpfilename.sql]
+mysqldump -u root –p Mysql123# TLH_Dev_V3 > dumpfilename.sql
+* back commands include backup with procedures and functions
+```
+mysqldump --routines --events -u root -p Kleansy_Dev > Kleansy_Dev_060723.sql
+mysql -u root -p test < Kleansy_Dev_060723.sql
+```
+While restoring error rectification
+
+sed -i 's/DEFINER=[^*]*\*/\*/g' mydump.sql
+
+
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `tlh_ods_feature_2`.* TO `tlh_analytics01`@`%` WITH GRANT OPTION;
+
+
+
+GRANT SELECT, INSERT, UPDATE,CREATE, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE,
+ALTER ROUTINE, EVENT, TRIGGER ON `tlh_ods_feature_2`.* TO `tlh_analytics01`@`%` WITH GRANT OPTION;
+
+
+
+
+select user,host from mysql.user;
