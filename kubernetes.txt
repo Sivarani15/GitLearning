@@ -1,0 +1,174 @@
+## Kubernetes Hardware requirements
+
+A minimum Kubernetes master node configuration is:
+4 CPU cores (Intel VT-capable CPU)
+16GB RAM
+1GB Ethernet NIC
+40GB hard disk space in the /var directory
+
+
+A minimum Kubernetes worker node configuration is a bare-metal server or an Oracle Linux Kernel-based Virtual Machine (KVM) instance with:
+1 CPU cores (Intel VT-capable CPU)
+8GB RAM
+1GB Ethernet NIC
+15GB hard disk space in the /var directory
+
+
+## Kubernetes Control Plane Components 
+### kube-apiserver 
+* The API server is the front end for the Kubernetes control plane
+* kube-apiserver is designed to scale horizontally—that is, it scales by deploying more instances. You can run several instances of kube-apiserver and balance traffic between those instances.
+### etcd 
+* Consistent and highly-available key value store used as Kubernetes' backing store for all cluster data.
+### kube-scheduler 
+* Control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on.
+### kube-controller-manager
+* Control plane component that runs controller processes.
+
+### cloud-controller-manager
+* A Kubernetes control plane component that embeds cloud-specific control logic. The cloud controller manager lets you link your cluster into your cloud provider's API, and separates out the components that interact with that cloud platform from components that only interact with your cluster.
+* The cloud-controller-manager only runs controllers that are specific to your cloud provider. If you are running Kubernetes on your own premises, or in a learning environment inside your own PC, the cluster does not have a cloud controller manager.
+
+## Node Components
+
+## kubelet
+
+* An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod.
+* The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by Kubernetes.
+
+## kube-proxy
+
+* kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept.
+* 
+## Container runtime
+
+* The container runtime is the software that is responsible for running containers.
+* Kubernetes supports container runtimes such as containerd, CRI-O, and any other implementation of the [Kubernetes CRI (Container Runtime Interface)](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtime-interface.md).
+#### CRI runtimes
+* cri-o
+* rktlet
+* frakti
+* cri-containerd
+* singularity-cri
+
+
+## Kops installation
+
+prerequisites for installation
+
+
+1. Domain Name - bhavanya.xyz
+2. AWS Account
+3. S3 Bucket & Route 53 Domain Integration
+4. Deploy a Mgmt server which holds all scipts
+5. KOPS Binary( k8s Cluster Mgmt) & Kubectl Binary (K8s Cluster Ops) {kops binary wget https://github.com/kubernetes/kops/releases/download/v1.27.0/kops-linux-amd64} and (curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+) {link from kubernets kops officical documentation
+curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64}
+6. SSH Public & Private Keys
+7. AWS CLI & AWS Access key and Secrete key  (AKIA3APGR2IORYVUZ47F  /  orXk3qVm21flPfC8PyPw2wn5hqBxwRXUWDZAYwzH )
+
+--------------
+
+kops create cluster --name=bhavanya.xyz --state=s3://bhavanya.xyz --zones=us-west-2a --node-count=1 --node-size=t2.micro --master-size=t2.medium --master-volume-size 10 --node-volume-size 10 --dns-zone=bhavanya.xyz --yes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+kops create cluster --zones=us-west-2a app.bhavanya.xyz
+kops create cluster --name=app.bhavanya.xyz --state=s3://kops-state-03056 --zones=us-west-2a --node-count=1 --node-size=t2.micro --master-size=t2.medium --master-volume-size 10 --node-volume-size 10 --dns-zone=app.bhavanya.xyz --yes
+
+kops create cluster app.bhavanya.xyz --state=s3://kops-state-03056 --zones=us-west-2a --node-count=1 --node-size=t2.micro --master-size=t2.medium --master-volume-size 10 --node-volume-size 10 --dns-zone=app.bhavanya.xyz --yes
+
+prerequest:
+===========
+
+1. Domain name  bhavanya.xyz
+2. AWS account 
+3. S3 bucket and route53 domain intergation
+4. Mamt server
+// 5. kops binnary and kubectl binnary wget https://github.com/kubernetes/kops/releases/download/v1.25.3/kops-linux-amd64  and curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+5. kops binnary and kubectl binnary wget https://github.com/kubernetes/kops/releases/download/v1.21.2/kops-linux-amd64 and curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+6. ssh keys(public and private)  ssh-keygen
+7. AWS CLI && access key and secret key 
+   (AKIA3APGR2IORYVUZ47F  /  orXk3qVm21flPfC8PyPw2wn5hqBxwRXUWDZAYwzH )
+
+export KOPS_STATE_STORE=s3://kops-state-03056
+kops create cluster --name=chandrakumar.co.in --state=s3://kops-chandra --zones=eu-west-1b --node-count=1 --node-size=t2.micro --master-size=t2.medium --master-volume-size 10 --node-volume-size 10 --dns-zone=chandrakumar.co.in --yes
+
+
+
+
+kops get cluster --state s3://kops-chandra
+kops validate cluster --state s3://kops-chandra
+kops get ig --name chandrakumar.co.in --state s3://kops-chandra
+kops edit ig --name=chandrakumar.co.in master-eu-west-1b --state s3://kops-chandra
+kops edit ig --name=chandrakumar.co.in nodes-eu-west-1b --state s3://kops-chandra
+kops update cluster --name chandrakumar.co.in --state s3://kops-chandra --yes
+kops rolling-update cluster --name chandrakumar.co.in --state s3://kops-chandra
+kops delete cluster --name chandrakumar.co.in --state=s3://kops-chandra --yes
+kops delete cluster --name chandrakumar.co.in --state s3://kops-chandra --yes
+kops get nodes -o yaml --state s3://kops-chandra
+kops validate cluster --state s3://kops-chandra
+kops validate cluster
+kops edit cluster 
+kops update cluster --yes
+export NAME=chandrakumar.co.in
+export KOPS_STATE_STORE=s3://kops-chandra
+kops get ig
+kops get cluster
+
+
+
+
+kubectl exec -it nginx-deployment-6fb94446f4-hrlvt -- bin/bash
+
+
+
+
+
+
+
+
+k8s Installtion in EKS
+----------------------
+
+Prerequisites
+
+
+kubectl command line tool is installed on your device or AWS CloudShell
+
+
+
+
+
+
+### DNS
+
+Nameservers in Godaddy 
+ns35.domaincontrol.com
+ns36.domaincontrol.com
+
+ns31.domaincontrol.com
+ns32.domaincontrol.com
+
+
+
+
+
+AWS Name servers
+ns-754.awsdns-30.net
+ns-1449.awsdns-53.org
+ns-1540.awsdns-00.co.uk
+ns-400.awsdns-50.com
