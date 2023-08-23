@@ -1,0 +1,34 @@
+terraform commands
+-------------------
+
+
+
+
+
+
+terraform workspaces
+
+* Craete new workspace
+     terraform workspace new <workspace-name>
+* Switch between workspaces
+    terraform workspace select <workspace name>
+
+    terraform workspace delete <workspace name>
+    terraform workspace list 
+
+## aws
+aws configure
+AWS Access Key ID:
+AWS Secret Access Key:
+
+## azure
+
+az login
+
+Your browser will open and prompt you to enter your Azure login credentials. After successful authentication, your terminal will display your subscription information.
+
+local variables
+
+locals {
+  name_suffix = "${var.resource_tags["project"]}-${var.resource_tags["environment"]}"
+}
