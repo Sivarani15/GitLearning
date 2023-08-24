@@ -65,8 +65,7 @@ prerequisites for installation
 ) {link from kubernets kops officical documentation
 curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64}
 6. SSH Public & Private Keys
-7. AWS CLI & AWS Access key and Secrete key  (AKIA3APGR2IORYVUZ47F  /  orXk3qVm21flPfC8PyPw2wn5hqBxwRXUWDZAYwzH )
-
+7. AWS CLI & AWS Access key and Secrete key 
 --------------
 
 kops create cluster --name=bhavanya.xyz --state=s3://bhavanya.xyz --zones=us-west-2a --node-count=1 --node-size=t2.micro --master-size=t2.medium --master-volume-size 10 --node-volume-size 10 --dns-zone=bhavanya.xyz --yes
